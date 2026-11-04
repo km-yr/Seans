@@ -1,5 +1,4 @@
-// BOOK WORM – service worker: appka działa offline, okładki są zapamiętywane.
-// Uwaga: Seans i BOOK WORM mają ten sam adres główny, więc czyścimy tylko własne pamięci (prefiks "bookworm-").
+
 const VERSION = 'bookworm-v2';
 const IMG = 'bookworm-img';
 const FONTS = 'bookworm-fonts';
