@@ -1,6 +1,4 @@
-/* Seans – lista filmów i seriali do obejrzenia.
-   Dane: TMDB (themoviedb.org), dostępność na platformach w Polsce: JustWatch przez TMDB.
-   Lista zapisuje się w pamięci telefonu (localStorage). */
+/* save in localStorage */
 (() => {
   'use strict';
 
@@ -14,7 +12,7 @@
   const STORE_HINT = 'seans.swipeHintDone';
   const DELETE_W = 96;
 
-  // ---------- Pamięć ----------
+  
   const store = {
     get(k, fallback) {
       try { const v = localStorage.getItem(k); return v === null ? fallback : JSON.parse(v); }
@@ -40,7 +38,7 @@
   const keyOf = (type, id) => `${type}-${id}`;
   const findItem = (type, id) => state.list.find((i) => i.key === keyOf(type, id));
 
-  // ---------- Pomocnicze ----------
+  
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -79,7 +77,7 @@
     return `<div class="${cls} poster-ph" aria-hidden="true">${letter}</div>`;
   }
 
-  // ---------- TMDB ----------
+  
   class ApiError extends Error {
     constructor(msg, code) { super(msg); this.code = code; }
   }
@@ -152,7 +150,7 @@
         overview = en.overview || '';
         if (!tagline) tagline = en.tagline || '';
         overviewLang = 'en';
-      } catch (e) { /* zostaje pusty opis */ }
+      } catch (e) { /* pusty opis */ }
     }
     return {
       id: d.id,
@@ -175,7 +173,7 @@
     };
   }
 
-  // ---------- Nawigacja ----------
+  
   function go(page) {
     state.page = page;
     $('#page-list').hidden = page !== 'list';
@@ -192,7 +190,7 @@
     if (g) go(g.getAttribute('data-goto'));
   });
 
-  // ---------- Strona 1: Moja lista ----------
+  
   function visibleItems() {
     const items = state.list.slice().sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0));
     if (state.filter === 'todo') return items.filter((i) => !i.watched);
@@ -294,7 +292,7 @@
     });
   }
 
-  // Kliknięcia w liście
+  
   $('#watchlist').addEventListener('click', (e) => {
     const row = e.target.closest('.row');
     if (!row) return;
@@ -325,7 +323,7 @@
     }
   });
 
-  // ---------- Przesunięcie w lewo = usuń ----------
+  
   let drag = null;
   let suppressClick = false;
 
@@ -374,7 +372,7 @@
       try { drag.content.setPointerCapture(e.pointerId); } catch (_) {}
     }
     let x = drag.base + dx;
-    if (x > 0) x = x / 4;                       // opór w prawo
+    if (x > 0) x = x / 4;                       
     if (x < -drag.width) x = -drag.width;
     drag.x = x;
     setX(drag.row, x, false);
@@ -385,7 +383,7 @@
     if (!d.active) return;
     suppressClick = true;
     setTimeout(() => (suppressClick = false), 350);
-    if (d.x < -d.width * 0.6) {               // pełne przesunięcie = od razu usuń
+    if (d.x < -d.width * 0.6) {               
       setX(d.row, -d.width, true);
       setTimeout(() => removeItem(d.row.dataset.key), 180);
     } else if (d.x < -DELETE_W / 2) {
@@ -401,7 +399,7 @@
     if (state.openRow && !state.openRow.contains(e.target)) closeRow(state.openRow);
   });
 
-  // ---------- Strona 2: Wyszukiwarka ----------
+  
   const input = $('#search-input');
   const status = $('#search-status');
   let searchTimer = null;
@@ -492,11 +490,11 @@
     if (r) openDetail(findItem(r.type, r.id) || r);
   });
 
-  // ---------- Karta szczegółów ----------
+  
   const sheet = $('#sheet');
   const sheetBody = $('#sheet-body');
   const backdrop = $('#sheet-backdrop');
-  let current = null;     // dane wyświetlanego tytułu
+  let current = null;     
   let detailToken = 0;
 
   function lockScroll(on) { document.documentElement.style.overflow = on ? 'hidden' : ''; }
@@ -525,7 +523,7 @@
       const d = await fetchDetails(type, id);
       if (token !== detailToken) return;
       current = { ...current, ...d, providersError: '' };
-      // Odśwież zapisane dane, jeśli tytuł jest na liście
+      
       const it = findItem(type, id);
       if (it) {
         updateItem(it.key, {
@@ -555,7 +553,7 @@
     const p = d.providers;
     if (!p) return html;
     if (!p.groups.length) {
-      html += `<p class="prov-empty">Ten tytuł nie jest teraz dostępny na żadnej platformie w Polsce.</p>`;
+      html += `<p class="prov-empty">Ten tytuł nie jest obecnie dostępny na żadnej platformie w Polsce.</p>`;
     } else {
       html += `<div class="providers">${p.groups.map((g) => `
         <div class="prov-group">
@@ -649,7 +647,7 @@
     if (!$('#settings').hidden) closeSettings(); else if (!sheet.hidden) closeDetail();
   });
 
-  // Przesunięcie karty w dół zamyka ją
+  
   [sheet, $('#settings')].forEach((sh) => {
     let y0 = null, dy = 0;
     sh.addEventListener('touchstart', (e) => {
@@ -674,12 +672,12 @@
     });
   });
 
-  // ---------- Strona 3: Losuj ----------
-  const MIN_VOTE = 5.8;
+  
+  const MIN_VOTE = 6.5;
   const draw = { mode: 'list', picks: [], seenNew: new Set(), lastList: [] };
   const HINTS = {
-    list: 'Trzy nieobejrzane tytuły z Twojej listy z oceną powyżej 5,8.',
-    new: 'Trzy filmy lub seriale z oceną powyżej 5,8, które obejrzysz w abonamencie w Polsce.'
+    list: 'Trzy nieobejrzane tytuły z Twojej listy z oceną powyżej 6,5.',
+    new: 'Trzy filmy lub seriale z oceną powyżej 6,5, które obejrzysz w abonamencie w Polsce.'
   };
 
   function setDrawStatus(text, isError) {
@@ -704,7 +702,7 @@
     return a;
   }
 
-  // Uzupełnia brakujące oceny tytułów z listy (np. dodanych przed tą wersją appki)
+  
   async function ensureVotes(items) {
     const missing = items.filter((i) => typeof i.vote !== 'number' && !(i.voteAt && Date.now() - i.voteAt < 7 * 864e5));
     let idx = 0;
@@ -732,14 +730,14 @@
       try { await ensureVotes(todo); } catch (e) { if (!todo.some((i) => typeof i.vote === 'number')) throw e; }
     }
     const pool = state.list.filter((i) => !i.watched && typeof i.vote === 'number' && i.vote > MIN_VOTE);
-    if (!pool.length) return { picks: [], msg: 'Żaden nieobejrzany tytuł z listy nie ma oceny powyżej 5,8.' };
-    // Unikaj powtórki poprzedniego losowania, jeśli jest z czego wybierać
+    if (!pool.length) return { picks: [], msg: 'Żaden nieobejrzany tytuł z listy nie ma oceny powyżej 6,5.' };
+    
     const fresh = pool.filter((i) => !draw.lastList.includes(i.key));
     const base = fresh.length >= 3 ? fresh : pool;
     const picks = shuffle(base).slice(0, 3);
     draw.lastList = picks.map((p) => p.key);
     const msg = pool.length < 3
-      ? `Na liście ${pool.length === 1 ? 'jest tylko 1 nieobejrzany tytuł' : `są tylko ${pool.length} nieobejrzane tytuły`} z oceną powyżej 5,8.`
+      ? `Na liście ${pool.length === 1 ? 'jest tylko 1 nieobejrzany tytuł' : `są tylko ${pool.length} nieobejrzane tytuły`} z oceną powyżej 6,5.`
       : '';
     return { picks, msg };
   }
@@ -844,7 +842,7 @@
     if (r) openDetail(findItem(r.type, r.id) || r);
   });
 
-  // ---------- Ustawienia ----------
+  
   const settings = $('#settings');
   function openSettings(firstRun) {
     $('#key-input').value = state.key;
@@ -886,7 +884,7 @@
     }
   });
 
-  // Eksport / import kopii
+  
   $('#export-btn').addEventListener('click', async () => {
     const payload = JSON.stringify({ app: 'seans', version: 1, exportedAt: new Date().toISOString(), items: state.list }, null, 2);
     const name = `seans-lista-${new Date().toISOString().slice(0, 10)}.json`;
@@ -934,7 +932,7 @@
     }
   });
 
-  // ---------- Toast ----------
+  
   let toastTimer = null;
   function toast(msg, actionLabel, action) {
     const t = $('#toast');
@@ -945,7 +943,7 @@
     toastTimer = setTimeout(() => { t.hidden = true; }, actionLabel ? 5000 : 2600);
   }
 
-  // ---------- Start ----------
+  
   renderList();
   if (!state.key) openSettings(true);
 
