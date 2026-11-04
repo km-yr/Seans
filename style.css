@@ -1,11 +1,10 @@
-/* Seans: kino o północy. Granatowa sala, fioletowe fotele, różowy neon nad wejściem.
-   Układ: jedna kolumna jak lista biletów, dolny pasek kart jak w aplikacjach iOS. */
+
 :root {
-  --pink: #F4ABC4;      /* akcent: neon, aktywne stany */
-  --dusk: #595B83;      /* jaśniejsze powierzchnie, wybrane elementy */
-  --indigo: #333456;    /* powierzchnie: rzędy, karty */
-  --night: #060930;     /* tło: ciemna sala */
-  --white: #ffffff;     /* tekst główny */
+  --pink: #F4ABC4;      
+  --dusk: #595B83;      
+  --indigo: #333456;    
+  --night: #060930;     
+  --white: #ffffff;     
 
   --bg: var(--night);
   --surface: var(--indigo);
@@ -51,7 +50,7 @@ button { cursor: pointer; }
 
 svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
-/* ---------- Szkielet ---------- */
+
 .app { min-height: 100%; }
 .page {
   padding-left: max(16px, env(safe-area-inset-left, 0px));
@@ -97,7 +96,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 }
 .icon-btn:active { background: var(--surface-hi); }
 
-/* ---------- Filtr ---------- */
+
 .segmented {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -119,7 +118,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 .count { font-variant-numeric: tabular-nums; font-weight: 500; color: var(--fg-3); }
 .seg[aria-selected="true"] .count { color: var(--accent); }
 
-/* ---------- Moja lista ---------- */
+
 .watchlist, .results { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 10px; }
 
 .row {
@@ -220,7 +219,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 
 .hint { text-align: center; color: var(--fg-3); font-size: .78rem; margin: 18px 0 0; }
 
-/* ---------- Pusty stan ---------- */
+
 .empty { text-align: center; padding: 48px 12px 20px; display: grid; justify-items: center; gap: 10px; }
 .empty h2 { margin: 6px 0 0; font-family: var(--font-display); font-size: 1.7rem; font-weight: 900; text-transform: uppercase; color: var(--fg); letter-spacing: 0; }
 .empty p { margin: 0 0 8px; color: var(--fg-2); max-width: 30ch; }
@@ -236,7 +235,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
   opacity: .7;
 }
 
-/* ---------- Wyszukiwarka ---------- */
+
 .searchbox {
   display: flex; align-items: center; gap: 8px;
   background: var(--surface);
@@ -250,7 +249,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
   flex: 1; min-width: 0;
   border: 0; background: transparent; outline: none;
   padding: 12px 0;
-  font-size: 1.05rem;  /* min. 16px, żeby iOS nie powiększał ekranu */
+  font-size: 1.05rem;  
   color: var(--fg);
 }
 .searchbox input::placeholder { color: var(--fg-3); }
@@ -295,7 +294,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 .sk-line { height: 12px; border-radius: 4px; }
 @keyframes shimmer { to { background-position: -200% 0; } }
 
-/* ---------- Dolny pasek ---------- */
+
 .tabbar {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
   display: grid; grid-template-columns: repeat(3, 1fr);
@@ -314,7 +313,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 }
 .tab[aria-current="page"] { color: var(--accent); }
 
-/* ---------- Ocena TMDB ---------- */
+
 .score { display: inline-flex; align-items: baseline; gap: 4px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .score .star { color: var(--accent); }
 .score b { font-weight: 800; color: var(--fg); }
@@ -334,7 +333,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 .score-big .num small { font-weight: 600; font-size: .75rem; color: var(--fg-2); }
 .score-big .src { font-size: .78rem; color: var(--fg-2); }
 
-/* ---------- Losuj ---------- */
+
 .segmented.two { grid-template-columns: 1fr 1fr; }
 .draw { display: grid; gap: 12px; padding-top: 6px; }
 .draw-hint { margin: 0; color: var(--fg-2); font-size: .92rem; }
@@ -361,7 +360,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 .pick-provs img { width: 26px; height: 26px; border-radius: 7px; }
 .pick-provs .more { font-size: .72rem; color: var(--fg-3); }
 
-/* ---------- Karty (sheet) ---------- */
+
 .sheet-backdrop {
   position: fixed; inset: 0; z-index: 20;
   background: color-mix(in srgb, var(--shade) 62%, transparent);
@@ -392,7 +391,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 
 .sheet-title { margin: 0; font-family: var(--font-display); font-weight: 900; font-size: 1.6rem; line-height: 1.1; color: var(--fg); letter-spacing: -.01em; overflow-wrap: anywhere; padding-right: 44px; text-wrap: balance; }
 
-/* Nagłówek szczegółów */
+
 .hero { margin: -26px calc(-1 * max(18px, env(safe-area-inset-right, 0px))) 0; position: relative; min-height: 120px; }
 .hero-backdrop { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; max-width: 100%; }
 .hero-fade { position: absolute; inset: 0; background: linear-gradient(to bottom, color-mix(in srgb, var(--bg) 25%, transparent) 0%, transparent 28%, color-mix(in srgb, var(--bg) 75%, transparent) 62%, var(--bg) 94%); }
@@ -461,7 +460,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 #key-status.err { color: #F08A7E; }
 .attribution { color: var(--fg-3); border-top: 1px solid var(--line); padding-top: 14px; }
 
-/* ---------- Toast ---------- */
+
 .toast {
   position: fixed; left: 50%; z-index: 40;
   bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px) + 16px);
