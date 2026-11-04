@@ -2,7 +2,7 @@
 (() => {
   'use strict';
 
-  // ---------- Ustawienia ----------
+ 
   const REGION = 'PL';
   const LANG = 'pl-PL';
   const API = 'https://api.themoviedb.org/3';
